@@ -3,8 +3,53 @@ const historyPage = document.querySelector("#historyPage");
 const aiConfig = document.querySelector("#aiConfig");
 const customUpload = document.querySelector("#customUpload");
 const sceneTabs = document.querySelector("#sceneTabs");
+const drawerOverlay = document.querySelector("#drawerOverlay");
+const configDrawer = document.querySelector("#configDrawer");
+const drawerTitle = document.querySelector("#drawerTitle");
+const drawerContent = document.querySelector("#drawerContent");
+const drawerClose = document.querySelector("#drawerClose");
+let activeEditor = null;
+let activeEditorHost = null;
 
 sceneTabs.style.display = "none";
+
+function closeDrawer() {
+  if (!activeEditor) {
+    return;
+  }
+
+  activeEditorHost.appendChild(activeEditor);
+  activeEditor = null;
+  activeEditorHost = null;
+  configDrawer.classList.remove("is-open");
+  configDrawer.setAttribute("aria-hidden", "true");
+  drawerOverlay.classList.remove("is-open");
+  drawerOverlay.hidden = true;
+  document.body.classList.remove("drawer-open");
+}
+
+function openDrawer(editorKey) {
+  const editor = document.querySelector(`[data-editor-panel="${editorKey}"]`);
+  if (!editor) {
+    return;
+  }
+
+  if (activeEditor && activeEditor !== editor) {
+    closeDrawer();
+  }
+
+  activeEditor = editor;
+  activeEditorHost = editor.parentElement;
+  drawerTitle.textContent = editor.dataset.drawerTitle || "修改";
+  drawerContent.appendChild(editor);
+  drawerOverlay.hidden = false;
+  requestAnimationFrame(() => {
+    drawerOverlay.classList.add("is-open");
+    configDrawer.classList.add("is-open");
+  });
+  configDrawer.setAttribute("aria-hidden", "false");
+  document.body.classList.add("drawer-open");
+}
 
 document.querySelector("#toHistory").addEventListener("click", () => {
   composePage.classList.remove("is-active");
@@ -27,19 +72,38 @@ document.querySelectorAll(".mode-option").forEach((button) => {
     aiConfig.style.display = isAi ? "grid" : "none";
     customUpload.classList.toggle("is-active", !isAi);
     sceneTabs.style.display = isAi ? "none" : "block";
+    closeDrawer();
   });
+});
+
+document.addEventListener("click", (event) => {
+  const editButton = event.target.closest(".edit-config-btn");
+  if (!editButton) {
+    return;
+  }
+
+  event.preventDefault();
+  openDrawer(editButton.dataset.editor);
+});
+
+drawerClose.addEventListener("click", closeDrawer);
+drawerOverlay.addEventListener("click", closeDrawer);
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    closeDrawer();
+  }
 });
 
 document.querySelectorAll(".choice-type").forEach((button) => {
   button.addEventListener("click", () => {
-    const card = button.closest(".config-card");
-    card.querySelectorAll(".choice-type").forEach((item) => item.classList.remove("is-active"));
+    const editor = button.closest(".config-editor");
+    editor.querySelectorAll(".choice-type").forEach((item) => item.classList.remove("is-active"));
     button.classList.add("is-active");
 
-    const preset = card.querySelector(".chips");
-    const custom = card.querySelector(".custom-line");
+    const preset = editor.querySelector(".chips");
+    const custom = editor.querySelector(".custom-line");
     const showCustom = button.dataset.target.endsWith("Custom");
-    preset.style.display = showCustom ? "none" : "flex";
+    preset.style.display = showCustom ? "none" : "grid";
     custom.classList.toggle("is-active", showCustom);
   });
 });
@@ -47,6 +111,12 @@ document.querySelectorAll(".choice-type").forEach((button) => {
 function bindChips(containerId, valueId) {
   const container = document.querySelector(`#${containerId}`);
   const value = document.querySelector(`#${valueId}`);
+  const hideRecommend = () => {
+    const recommend = value.closest(".selection-info")?.querySelector(".recommend");
+    if (recommend) {
+      recommend.hidden = true;
+    }
+  };
 
   container.querySelectorAll(".chip").forEach((chip) => {
     chip.addEventListener("click", () => {
@@ -54,6 +124,7 @@ function bindChips(containerId, valueId) {
       chip.classList.add("is-active");
       resetCustom(false);
       value.textContent = chip.textContent.trim();
+      hideRecommend();
     });
   });
 
@@ -82,6 +153,7 @@ function bindChips(containerId, valueId) {
     }
     input.value = nextValue;
     value.textContent = nextValue;
+    hideRecommend();
     container.querySelectorAll(".chip").forEach((item) => item.classList.remove("is-active"));
     input.disabled = true;
     button.disabled = true;

@@ -42,7 +42,7 @@
         <div class="mode-row">
           <span>图片来源</span>
           <button class="mode-option is-active" data-mode="ai" type="button"><span></span>AI生成</button>
-          <button class="mode-option" data-mode="custom" type="button"><span></span>自定义</button>
+          <button class="mode-option" data-mode="custom" type="button"><span></span>客户家实景图</button>
         </div>
 
         <div class="ai-config" id="aiConfig">
@@ -50,24 +50,27 @@
             <div class="config-head">
               <div class="config-title">功能空间</div>
               <div class="current">当前选择：<strong id="spaceValue">客厅</strong></div>
+              <button class="edit-config-btn" data-editor="space" type="button">修改</button>
             </div>
-            <div class="switch-row">
-              <button class="choice-type is-active" data-target="spacePreset" type="button">枚举值选择</button>
-              <button class="choice-type" data-target="spaceCustom" type="button">自定义输入</button>
-            </div>
-            <div class="chips" id="spacePreset">
-              <button class="chip is-active" type="button">客厅</button>
-              <button class="chip" type="button">卧室</button>
-              <button class="chip" type="button">餐厅</button>
-              <button class="chip" type="button">书房</button>
-              <button class="chip" type="button">阳台</button>
-            </div>
-            <div class="custom-line" id="spaceCustom">
-              <div class="custom-input-row">
-                <input type="text" maxlength="12" placeholder="请输入">
-                <button class="primary-small" type="button">确认</button>
+            <div class="config-editor" data-editor-panel="space" data-drawer-title="功能空间">
+              <div class="switch-row">
+                <button class="choice-type is-active" data-target="spacePreset" type="button">枚举值选择</button>
+                <button class="choice-type" data-target="spaceCustom" type="button">自定义输入</button>
               </div>
-              <div class="confirmed-list"></div>
+              <div class="chips" id="spacePreset">
+                <button class="chip is-active" type="button">客厅</button>
+                <button class="chip" type="button">卧室</button>
+                <button class="chip" type="button">餐厅</button>
+                <button class="chip" type="button">书房</button>
+                <button class="chip" type="button">阳台</button>
+              </div>
+              <div class="custom-line" id="spaceCustom">
+                <div class="custom-input-row">
+                  <input type="text" maxlength="12" placeholder="请输入">
+                  <button class="primary-small" type="button">确认</button>
+                </div>
+                <div class="confirmed-list"></div>
+              </div>
             </div>
           </div>
 
@@ -78,26 +81,29 @@
                 <div class="current">当前选择：<strong id="styleValue">现代简约风</strong></div>
                 <span class="recommend">已根据商品自动推荐</span>
               </div>
+              <button class="edit-config-btn" data-editor="style" type="button">修改</button>
             </div>
-            <div class="switch-row">
-              <button class="choice-type is-active" data-target="stylePreset" type="button">枚举值选择</button>
-              <button class="choice-type" data-target="styleCustom" type="button">自定义输入</button>
-            </div>
-            <div class="chips style-chips" id="stylePreset">
-              <button class="chip" type="button">现代简约风</button>
-              <button class="chip" type="button">中古/复古风</button>
-              <button class="chip" type="button">原木风</button>
-              <button class="chip" type="button">北欧风</button>
-              <button class="chip" type="button">中式风</button>
-              <button class="chip" type="button">奶油风</button>
-              <button class="chip" type="button">法式风</button>
-            </div>
-            <div class="custom-line" id="styleCustom">
-              <div class="custom-input-row">
-                <input type="text" maxlength="12" placeholder="请输入">
-                <button class="primary-small" type="button">确认</button>
+            <div class="config-editor" data-editor-panel="style" data-drawer-title="环境风格">
+              <div class="switch-row">
+                <button class="choice-type is-active" data-target="stylePreset" type="button">枚举值选择</button>
+                <button class="choice-type" data-target="styleCustom" type="button">自定义输入</button>
               </div>
-              <div class="confirmed-list"></div>
+              <div class="chips style-chips" id="stylePreset">
+                <button class="chip" type="button">现代简约风</button>
+                <button class="chip" type="button">中古/复古风</button>
+                <button class="chip" type="button">原木风</button>
+                <button class="chip" type="button">北欧风</button>
+                <button class="chip" type="button">中式风</button>
+                <button class="chip" type="button">奶油风</button>
+                <button class="chip" type="button">法式风</button>
+              </div>
+              <div class="custom-line" id="styleCustom">
+                <div class="custom-input-row">
+                  <input type="text" maxlength="12" placeholder="请输入">
+                  <button class="primary-small" type="button">确认</button>
+                </div>
+                <div class="confirmed-list"></div>
+              </div>
             </div>
           </div>
         </div>
@@ -229,6 +235,16 @@
       </section>
     </main>
   </div>
+
+  <div class="drawer-overlay" id="drawerOverlay" hidden></div>
+  <aside class="config-drawer" id="configDrawer" aria-hidden="true" aria-labelledby="drawerTitle">
+    <div class="drawer-handle"></div>
+    <header class="drawer-head">
+      <h3 id="drawerTitle">修改</h3>
+      <button class="drawer-close" id="drawerClose" type="button" aria-label="关闭">×</button>
+    </header>
+    <div class="drawer-content" id="drawerContent"></div>
+  </aside>
 
   <script src="script.js"></script>
 </body>
