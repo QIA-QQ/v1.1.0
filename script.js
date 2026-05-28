@@ -2,7 +2,6 @@ const composePage = document.querySelector("#composePage");
 const historyPage = document.querySelector("#historyPage");
 const aiConfig = document.querySelector("#aiConfig");
 const customUpload = document.querySelector("#customUpload");
-const sceneTabs = document.querySelector("#sceneTabs");
 const drawerOverlay = document.querySelector("#drawerOverlay");
 const configDrawer = document.querySelector("#configDrawer");
 const drawerTitle = document.querySelector("#drawerTitle");
@@ -10,8 +9,6 @@ const drawerContent = document.querySelector("#drawerContent");
 const drawerClose = document.querySelector("#drawerClose");
 let activeEditor = null;
 let activeEditorHost = null;
-
-sceneTabs.style.display = "none";
 
 function closeDrawer() {
   if (!activeEditor) {
@@ -51,6 +48,17 @@ function openDrawer(editorKey) {
   document.body.classList.add("drawer-open");
 }
 
+function setSceneMode(mode, shouldCloseDrawer = true) {
+  const isAi = mode === "ai";
+  aiConfig.style.display = isAi ? "grid" : "none";
+  customUpload.classList.toggle("is-active", !isAi);
+  if (shouldCloseDrawer) {
+    closeDrawer();
+  }
+}
+
+setSceneMode(document.querySelector(".mode-option.is-active")?.dataset.mode || "custom", false);
+
 document.querySelector("#toHistory").addEventListener("click", () => {
   composePage.classList.remove("is-active");
   historyPage.classList.add("is-active");
@@ -68,16 +76,12 @@ document.querySelectorAll(".mode-option").forEach((button) => {
     document.querySelectorAll(".mode-option").forEach((item) => item.classList.remove("is-active"));
     button.classList.add("is-active");
 
-    const isAi = button.dataset.mode === "ai";
-    aiConfig.style.display = isAi ? "grid" : "none";
-    customUpload.classList.toggle("is-active", !isAi);
-    sceneTabs.style.display = isAi ? "none" : "block";
-    closeDrawer();
+    setSceneMode(button.dataset.mode);
   });
 });
 
 document.addEventListener("click", (event) => {
-  const editButton = event.target.closest(".edit-config-btn");
+  const editButton = event.target.closest("[data-editor]");
   if (!editButton) {
     return;
   }

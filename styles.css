@@ -26,7 +26,8 @@ body {
 }
 
 button,
-input {
+input,
+textarea {
   font: inherit;
 }
 
@@ -124,6 +125,17 @@ button {
   display: block;
 }
 
+.customer-line {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 0 16px 14px;
+  color: #111827;
+  font-size: 18px;
+  font-weight: 700;
+}
+
 .panel {
   background: var(--card);
   border: 1px solid var(--border);
@@ -197,6 +209,21 @@ button {
   box-shadow: 0 2px 5px rgba(0, 0, 0, .03);
 }
 
+.select-product-btn {
+  width: 146px;
+  height: 42px;
+  border: 1px solid #dedede;
+  border-radius: 5px;
+  background: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  font-size: 16px;
+  color: #222;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, .03);
+}
+
 .pic-icon {
   width: 16px;
   height: 13px;
@@ -225,6 +252,28 @@ button {
   width: 9px;
   height: 6px;
   background: linear-gradient(135deg, transparent 48%, #111 50% 58%, transparent 60%), linear-gradient(45deg, transparent 45%, #111 47% 55%, transparent 57%);
+}
+
+.bag-icon {
+  width: 16px;
+  height: 15px;
+  display: inline-block;
+  position: relative;
+  border: 1.8px solid #111;
+  border-radius: 1px;
+}
+
+.bag-icon::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: -6px;
+  width: 6px;
+  height: 6px;
+  border: 1.8px solid #111;
+  border-bottom: 0;
+  border-radius: 6px 6px 0 0;
+  background: #fff;
 }
 
 .upload-box p {
@@ -301,37 +350,31 @@ button {
 .mode-row {
   display: flex;
   align-items: center;
-  gap: 22px;
+  gap: 12px;
   padding: 14px 20px 8px;
   font-size: 16px;
 }
 
-.mode-option {
-  min-width: auto;
-  height: 28px;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  color: #333;
-  padding: 0;
+.mode-row > span {
+  margin-right: 4px;
+  color: #4d5663;
 }
 
-.mode-option span {
-  width: 15px;
-  height: 15px;
-  display: inline-block;
-  border: 1.5px solid #c8ccd3;
-  border-radius: 50%;
-  margin-right: 8px;
-  vertical-align: -2px;
+.mode-option {
+  min-width: 116px;
+  height: 36px;
+  border: 1px solid #d9dde5;
+  border-radius: 6px;
+  background: #fff;
+  color: #333;
+  padding: 0 16px;
 }
 
 .mode-option.is-active {
+  border-color: var(--blue);
+  background: var(--blue-soft);
   color: var(--blue);
-}
-
-.mode-option.is-active span {
-  border: 4px solid var(--blue);
+  font-weight: 600;
 }
 
 .ai-config {
@@ -692,6 +735,54 @@ button {
 .custom-note {
   color: #7b7f86;
   margin: 0;
+}
+
+.requirement-body {
+  padding: 14px 20px 18px;
+}
+
+.style-recommendation {
+  margin: 0 0 12px;
+  color: #8c8f94;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.style-trigger {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--blue);
+  font-weight: 600;
+}
+
+.style-value {
+  color: #4d5663;
+  font-weight: 600;
+}
+
+.requirement-input {
+  width: 100%;
+  min-height: 82px;
+  resize: vertical;
+  border: 1px solid #d9dde5;
+  border-radius: 6px;
+  padding: 12px;
+  color: var(--text);
+  outline: none;
+}
+
+.requirement-input::placeholder {
+  color: #c0c4cc;
+}
+
+.requirement-input:focus {
+  border-color: #8bb6ff;
+  box-shadow: 0 0 0 3px rgba(47, 116, 255, .08);
+}
+
+.requirement-panel .config-editor {
+  display: none;
 }
 
 .scene-tabs {
@@ -1323,6 +1414,13 @@ button {
     padding: 10px 10px 0;
   }
 
+  .customer-line {
+    min-height: 42px;
+    padding: 4px 12px 12px;
+    gap: 16px;
+    font-size: 16px;
+  }
+
   .panel {
     border-radius: 7px;
     box-shadow: 0 4px 16px rgba(27, 42, 78, .05);
@@ -1355,6 +1453,18 @@ button {
     font-weight: 500;
   }
 
+  .product-panel .panel-title {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .product-panel .count {
+    margin-left: auto;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
   .product-row {
     min-height: auto;
     padding: 12px;
@@ -1380,6 +1490,19 @@ button {
     height: 36px;
     padding: 0 12px;
     font-size: 14px;
+  }
+
+  .select-product-btn {
+    width: auto;
+    min-width: 118px;
+    height: 36px;
+    padding: 0 12px;
+    font-size: 14px;
+  }
+
+  .product-panel .upload-box {
+    height: 184px;
+    flex-basis: 220px;
   }
 
   .upload-box p {
@@ -1422,8 +1545,10 @@ button {
     font-size: 13px;
   }
 
-  .mode-option span {
-    margin-right: 5px;
+  .mode-option {
+    min-width: 106px;
+    height: 34px;
+    padding: 0 12px;
   }
 
   .ai-config {
@@ -1542,6 +1667,21 @@ button {
   .custom-note {
     font-size: 12px;
     line-height: 1.5;
+  }
+
+  .requirement-body {
+    padding: 12px;
+  }
+
+  .style-recommendation {
+    margin-bottom: 10px;
+    font-size: 12px;
+  }
+
+  .requirement-input {
+    min-height: 84px;
+    padding: 10px;
+    font-size: 13px;
   }
 
   .config-drawer {

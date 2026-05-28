@@ -22,27 +22,26 @@
     </header>
 
     <main class="page page-compose is-active" id="composePage">
-      <section class="panel step-panel">
+      <div class="customer-line">
+        <span>客户</span>
+        <span>-</span>
+      </div>
+
+      <section class="panel step-panel scene-panel">
         <div class="panel-title">
-          <h2>第1步：导入商品图 <em>(必填)</em></h2>
-          <span class="count">已导入 0/2 张</span>
+          <h2>第1步：实景图</h2>
         </div>
-        <div class="product-row">
+        <div class="mode-row">
+          <span>图片来源</span>
+          <button class="mode-option is-active" data-mode="custom" type="button">客户家实景图</button>
+          <button class="mode-option" data-mode="ai" type="button">AI生成</button>
+        </div>
+
+        <div class="custom-upload is-active" id="customUpload">
           <div class="upload-box">
             <button class="upload-btn" type="button"><span class="pic-icon"></span>上传图片</button>
             <p>Ctrl+V粘贴或拖拽图片至此</p>
           </div>
-        </div>
-      </section>
-
-      <section class="panel step-panel scene-panel">
-        <div class="panel-title">
-          <h2>第2步：实景图</h2>
-        </div>
-        <div class="mode-row">
-          <span>图片来源</span>
-          <button class="mode-option is-active" data-mode="ai" type="button"><span></span>AI生成</button>
-          <button class="mode-option" data-mode="custom" type="button"><span></span>客户家实景图</button>
         </div>
 
         <div class="ai-config" id="aiConfig">
@@ -73,59 +72,54 @@
               </div>
             </div>
           </div>
-
-          <div class="config-card">
-            <div class="config-head">
-              <div class="config-title">环境风格</div>
-              <div class="selection-info">
-                <div class="current">当前选择：<strong id="styleValue">现代简约风</strong></div>
-                <span class="recommend">已根据商品自动推荐</span>
-              </div>
-              <button class="edit-config-btn" data-editor="style" type="button">修改</button>
-            </div>
-            <div class="config-editor" data-editor-panel="style" data-drawer-title="环境风格">
-              <div class="switch-row">
-                <button class="choice-type is-active" data-target="stylePreset" type="button">枚举值选择</button>
-                <button class="choice-type" data-target="styleCustom" type="button">自定义输入</button>
-              </div>
-              <div class="chips style-chips" id="stylePreset">
-                <button class="chip" type="button">现代简约风</button>
-                <button class="chip" type="button">中古/复古风</button>
-                <button class="chip" type="button">原木风</button>
-                <button class="chip" type="button">北欧风</button>
-                <button class="chip" type="button">中式风</button>
-                <button class="chip" type="button">奶油风</button>
-                <button class="chip" type="button">法式风</button>
-              </div>
-              <div class="custom-line" id="styleCustom">
-                <div class="custom-input-row">
-                  <input type="text" maxlength="12" placeholder="请输入">
-                  <button class="primary-small" type="button">确认</button>
-                </div>
-                <div class="confirmed-list"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="custom-upload" id="customUpload">
-          <div class="upload-box">
-            <button class="upload-btn" type="button"><span class="pic-icon"></span>上传图片</button>
-            <p>Ctrl+V粘贴或拖拽图片至此</p>
-          </div>
-          <p class="custom-note">上传客户家的实景图后，可继续选择旧家具替换、新家具融合、多产品组合或自定义提示词。</p>
         </div>
       </section>
 
-      <section class="panel step-panel scene-tabs" id="sceneTabs">
+      <section class="panel step-panel product-panel">
         <div class="panel-title">
-          <h2>第3步：选择场景 <em>(必填)</em></h2>
+          <h2>第2步：导入商品图 <em>(必填)</em></h2>
+          <span class="count">已导入 0/2 张</span>
         </div>
-        <div class="tabs">
-          <button class="tab is-active" type="button">旧家具置换</button>
-          <button class="tab" type="button">新家具融合</button>
-          <button class="tab" type="button">多产品组合</button>
-          <button class="tab" type="button">自定义提示词</button>
+        <div class="product-row">
+          <div class="upload-box">
+            <button class="upload-btn" type="button"><span class="pic-icon"></span>上传图片</button>
+            <button class="select-product-btn" type="button"><span class="bag-icon"></span>选择商品</button>
+            <p>Ctrl+V粘贴或拖拽图片至此</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel step-panel requirement-panel">
+        <div class="panel-title">
+          <h2>第3步：生成要求<em>（非必填）</em></h2>
+        </div>
+        <div class="requirement-body">
+          <p class="style-recommendation">
+            根据主商品风格推荐环境风格『<span class="style-value" id="styleValue">现代简约风</span>』，<button class="style-trigger" data-editor="style" type="button">点此修改</button>
+          </p>
+          <textarea class="requirement-input" placeholder="可在此继续补充您的个性化需求"></textarea>
+          <div class="config-editor" data-editor-panel="style" data-drawer-title="环境风格">
+            <div class="switch-row">
+              <button class="choice-type is-active" data-target="stylePreset" type="button">枚举值选择</button>
+              <button class="choice-type" data-target="styleCustom" type="button">自定义输入</button>
+            </div>
+            <div class="chips style-chips" id="stylePreset">
+              <button class="chip is-active" type="button">现代简约风</button>
+              <button class="chip" type="button">中古/复古风</button>
+              <button class="chip" type="button">原木风</button>
+              <button class="chip" type="button">北欧风</button>
+              <button class="chip" type="button">中式风</button>
+              <button class="chip" type="button">奶油风</button>
+              <button class="chip" type="button">法式风</button>
+            </div>
+            <div class="custom-line" id="styleCustom">
+              <div class="custom-input-row">
+                <input type="text" maxlength="12" placeholder="请输入">
+                <button class="primary-small" type="button">确认</button>
+              </div>
+              <div class="confirmed-list"></div>
+            </div>
+          </div>
         </div>
       </section>
 
