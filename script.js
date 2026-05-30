@@ -7,6 +7,10 @@ const configDrawer = document.querySelector("#configDrawer");
 const drawerTitle = document.querySelector("#drawerTitle");
 const drawerContent = document.querySelector("#drawerContent");
 const drawerClose = document.querySelector("#drawerClose");
+const imagePreviewOverlay = document.querySelector("#imagePreviewOverlay");
+const imagePreviewImg = document.querySelector("#imagePreviewImg");
+const imagePreviewTitle = document.querySelector("#imagePreviewTitle");
+const imagePreviewClose = document.querySelector("#imagePreviewClose");
 let activeEditor = null;
 let activeEditorHost = null;
 
@@ -94,7 +98,41 @@ drawerClose.addEventListener("click", closeDrawer);
 drawerOverlay.addEventListener("click", closeDrawer);
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") {
+    closeImagePreview();
     closeDrawer();
+  }
+});
+
+
+function openImagePreview(button) {
+  imagePreviewImg.src = button.dataset.previewSrc;
+  imagePreviewImg.alt = button.closest(".style-preview-frame")?.querySelector("img")?.alt || "风格示例";
+  imagePreviewTitle.textContent = button.dataset.previewTitle || "风格示例";
+  imagePreviewOverlay.hidden = false;
+  document.body.classList.add("preview-open");
+}
+
+function closeImagePreview() {
+  imagePreviewOverlay.hidden = true;
+  imagePreviewImg.src = "";
+  document.body.classList.remove("preview-open");
+}
+
+document.addEventListener("click", (event) => {
+  const previewButton = event.target.closest(".style-preview-btn");
+  if (!previewButton) {
+    return;
+  }
+
+  event.preventDefault();
+  event.stopPropagation();
+  openImagePreview(previewButton);
+});
+
+imagePreviewClose.addEventListener("click", closeImagePreview);
+imagePreviewOverlay.addEventListener("click", (event) => {
+  if (event.target === imagePreviewOverlay) {
+    closeImagePreview();
   }
 });
 
@@ -106,15 +144,20 @@ document.querySelectorAll(".choice-type").forEach((button) => {
 
     const preset = editor.querySelector(".chips");
     const custom = editor.querySelector(".custom-line");
+    const styleNote = editor.querySelector(".style-example-note");
     const showCustom = button.dataset.target.endsWith("Custom");
     preset.style.display = showCustom ? "none" : "grid";
     custom.classList.toggle("is-active", showCustom);
+    if (styleNote) {
+      styleNote.hidden = showCustom;
+    }
   });
 });
 
 function bindChips(containerId, valueId) {
   const container = document.querySelector(`#${containerId}`);
   const value = document.querySelector(`#${valueId}`);
+  const getChipText = (chip) => chip.querySelector(".style-chip-label")?.textContent.trim() || chip.textContent.trim();
   const hideRecommend = () => {
     const recommend = value.closest(".selection-info")?.querySelector(".recommend");
     if (recommend) {
@@ -127,8 +170,14 @@ function bindChips(containerId, valueId) {
       container.querySelectorAll(".chip").forEach((item) => item.classList.remove("is-active"));
       chip.classList.add("is-active");
       resetCustom(false);
-      value.textContent = chip.textContent.trim();
+      value.textContent = getChipText(chip);
       hideRecommend();
+    });
+    chip.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        chip.click();
+      }
     });
   });
 
