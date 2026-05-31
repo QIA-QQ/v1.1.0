@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>林氏放我家 - 图片合成产品 Demo</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="bot-avatar">
+          <span></span>
+        </div>
+        <strong>林氏放我家</strong>
+      </div>
+      <button class="ghost-btn info-btn" type="button">
+        <span class="icon">i</span>
+        功能介绍
+      </button>
+    </header>
+
+    <main class="page page-compose is-active" id="composePage">
+      <div class="customer-line">
+        <span>客户</span>
+        <span>-</span>
+      </div>
+
+      <section class="panel step-panel scene-panel">
+        <div class="panel-title">
+          <h2>第1步：实景图</h2>
+        </div>
+        <div class="mode-row">
+          <span>图片来源</span>
+          <button class="mode-option is-active" data-mode="custom" type="button">客户家实景图</button>
+          <button class="mode-option" data-mode="ai" type="button">AI生成</button>
+        </div>
+
+        <div class="custom-upload is-active" id="customUpload">
+          <div class="upload-box">
+            <button class="upload-btn" type="button"><span class="pic-icon"></span>上传图片</button>
+            <p>Ctrl+V粘贴或拖拽图片至此</p>
+          </div>
+        </div>
+
+        <div class="ai-config" id="aiConfig">
+          <div class="config-card">
+            <div class="config-head">
+              <div class="config-title">功能空间</div>
+              <div class="current">当前选择：<strong id="spaceValue">客厅</strong></div>
+              <button class="edit-config-btn" data-editor="space" type="button">修改</button>
+            </div>
+            <div class="config-editor" data-editor-panel="space" data-drawer-title="功能空间">
+              <div class="switch-row">
+                <button class="choice-type is-active" data-target="spacePreset" type="button">枚举值选择</button>
+                <button class="choice-type" data-target="spaceCustom" type="button">自定义输入</button>
+              </div>
+              <div class="chips" id="spacePreset">
+                <button class="chip is-active" type="button">客厅</button>
+                <button class="chip" type="button">卧室</button>
+                <button class="chip" type="button">餐厅</button>
+                <button class="chip" type="button">书房</button>
+                <button class="chip" type="button">阳台</button>
+              </div>
+              <div class="custom-line" id="spaceCustom">
+                <div class="custom-input-row">
+                  <input type="text" maxlength="12" placeholder="请输入">
+                  <button class="primary-small" type="button">确认</button>
+                </div>
+                <div class="confirmed-list"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel step-panel product-panel">
+        <div class="panel-title">
+          <h2>第2步：导入商品图 <em>(必填)</em></h2>
+          <span class="count">已导入 0/2 张</span>
+        </div>
+        <div class="product-row">
+          <div class="upload-box">
+            <button class="upload-btn" type="button"><span class="pic-icon"></span>上传图片</button>
+            <button class="select-product-btn" type="button"><span class="bag-icon"></span>选择商品</button>
+            <p>Ctrl+V粘贴或拖拽图片至此</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel step-panel requirement-panel">
+        <div class="panel-title">
+          <h2>第3步：生成要求<em>（非必填）</em></h2>
+        </div>
+        <div class="requirement-body">
+          <p class="style-recommendation">
+            根据主商品风格推荐环境风格『<span class="style-value" id="styleValue">现代简约风</span>』，<button class="style-trigger" data-editor="style" type="button">点此修改</button>
+          </p>
+          <textarea class="requirement-input" placeholder="可在此继续补充您的个性化需求"></textarea>
+          <div class="config-editor" data-editor-panel="style" data-drawer-title="环境风格">
+            <div class="switch-row">
+              <button class="choice-type is-active" data-target="stylePreset" type="button">枚举值选择</button>
+              <button class="choice-type" data-target="styleCustom" type="button">自定义输入</button>
+            </div>
+            <p class="style-example-note">样例图仅供鉴别风格，实际环境以AI生成为准。</p>
+            <div class="chips style-chips" id="stylePreset">
+              <div class="chip style-chip is-active" role="button" tabindex="0">
+                <span class="style-chip-label">现代简约风</span>
+                <div class="style-preview-frame">
+                  <img src="../风格例图/现代简约.png" alt="现代简约风格示例">
+                  <button class="style-preview-btn" type="button" data-preview-src="../风格例图/现代简约.png" data-preview-title="现代简约">预览</button>
+                </div>
+              </div>
+              <div class="chip style-chip" role="button" tabindex="0">
+                <span class="style-chip-label">复古风</span>
+                <div class="style-preview-frame">
+                  <img src="../风格例图/中古、复古风.png" alt="复古风风格示例">
+                  <button class="style-preview-btn" type="button" data-preview-src="../风格例图/中古、复古风.png" data-preview-title="复古风">预览</button>
+                </div>
+              </div>
+              <div class="chip style-chip" role="button" tabindex="0">
+                <span class="style-chip-label">原木风</span>
+                <div class="style-preview-frame">
+                  <img src="../风格例图/原木风.png" alt="原木风风格示例">
+                  <button class="style-preview-btn" type="button" data-preview-src="../风格例图/原木风.png" data-preview-title="原木风">预览</button>
+                </div>
+              </div>
+              <div class="chip style-chip" role="button" tabindex="0">
+                <span class="style-chip-label">北欧风</span>
+                <div class="style-preview-frame">
+                  <img src="../风格例图/北欧风.png" alt="北欧风风格示例">
+                  <button class="style-preview-btn" type="button" data-preview-src="../风格例图/北欧风.png" data-preview-title="北欧风">预览</button>
+                </div>
+              </div>
+              <div class="chip style-chip" role="button" tabindex="0">
+                <span class="style-chip-label">中式风</span>
+                <div class="style-preview-frame">
+                  <img src="../风格例图/中式风.png" alt="中式风风格示例">
+                  <button class="style-preview-btn" type="button" data-preview-src="../风格例图/中式风.png" data-preview-title="中式风">预览</button>
+                </div>
+              </div>
+              <div class="chip style-chip" role="button" tabindex="0">
+                <span class="style-chip-label">奶油风</span>
+                <div class="style-preview-frame">
+                  <img src="../风格例图/奶油风.png" alt="奶油风风格示例">
+                  <button class="style-preview-btn" type="button" data-preview-src="../风格例图/奶油风.png" data-preview-title="奶油风">预览</button>
+                </div>
+              </div>
+              <div class="chip style-chip" role="button" tabindex="0">
+                <span class="style-chip-label">法式风</span>
+                <div class="style-preview-frame">
+                  <img src="../风格例图/法式风.png" alt="法式风风格示例">
+                  <button class="style-preview-btn" type="button" data-preview-src="../风格例图/法式风.png" data-preview-title="法式风">预览</button>
+                </div>
+              </div>
+            </div>
+            <div class="custom-line" id="styleCustom">
+              <div class="custom-input-row">
+                <input type="text" maxlength="12" placeholder="请输入">
+                <button class="primary-small" type="button">确认</button>
+              </div>
+              <div class="confirmed-list"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="action-footer">
+        <button class="history-btn" id="toHistory" type="button"><span class="clock-icon"></span>查看历史生成结果</button>
+        <button class="generate-btn" type="button">生成搭配图</button>
+        <span class="wait">预计等待40秒</span>
+        <p><span class="bell">♧</span> 请向客户声明：AI合成效果仅供参考，实际要以收到的实物为准！</p>
+      </footer>
+    </main>
+
+    <main class="page page-history" id="historyPage">
+      <header class="history-head">
+        <button class="back-btn" id="backCompose" type="button">←</button>
+        <h1>历史生成结果</h1>
+      </header>
+
+      <section class="filter-panel">
+        <span>筛选:</span>
+        <div class="date-input">开始日期</div>
+        <div class="date-arrow">→</div>
+        <div class="date-input">结束日期 <span class="calendar">▣</span></div>
+        <button class="query-btn" type="button">查询</button>
+      </section>
+
+      <section class="history-list">
+        <article class="history-item ai-item">
+          <div class="history-meta"><span class="time-icon"></span>2026-05-25 21:29 <span class="user-icon"></span></div>
+          <div class="history-body">
+            <aside class="source-card ai-source">
+              <h3>源素材（实景 + 商品）</h3>
+              <div class="source-row"><span>功能空间</span><strong>客厅</strong></div>
+              <div class="source-row"><span>环境风格</span><strong>奶油风</strong></div>
+              <div class="source-products">
+                <span>商品</span>
+                <div class="mini product-sofa"></div>
+                <div class="mini product-table"></div>
+                <div class="mini product-lamp"></div>
+                <div class="mini more">+2</div>
+              </div>
+            </aside>
+            <div class="divider-arrow">›</div>
+            <div class="result-grid">
+              <div class="history-actions">
+                <button class="tag-btn">AI生成</button>
+                <button class="regen-btn"><span class="spin-icon"></span>重新生成</button>
+              </div>
+              <div class="result-img img-a"><span>方案 1</span></div>
+              <div class="result-img img-b"><span>方案 2</span></div>
+              <div class="result-img img-c"><span>方案 3</span></div>
+              <div class="result-img img-d"><span>方案 4</span></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="history-item">
+          <div class="history-meta"><span class="time-icon"></span>2026-05-25 20:48 <span class="user-icon"></span></div>
+          <div class="history-body">
+            <aside class="source-card">
+              <h3>源素材（实景 + 商品）</h3>
+              <div class="legacy-row">
+                <div class="mini room-real"><b>实景</b></div>
+                <span>+</span>
+                <div class="mini poster-bed"></div>
+              </div>
+            </aside>
+            <div class="divider-arrow">›</div>
+            <div class="result-grid">
+              <div class="history-actions">
+                <button class="tag-btn">自定义提示词</button>
+                <button class="regen-btn"><span class="spin-icon"></span>重新生成</button>
+              </div>
+              <div class="result-img img-e"><span>方案 1</span></div>
+              <div class="result-img img-f"><span>方案 2</span></div>
+              <div class="result-img img-g"><span>方案 3</span></div>
+              <div class="result-img img-h"><span>方案 4</span></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="history-item">
+          <div class="history-meta"><span class="time-icon"></span>2026-05-25 20:15 <span class="user-icon"></span></div>
+          <div class="history-body">
+            <aside class="source-card">
+              <h3>源素材（实景 + 商品）</h3>
+              <div class="legacy-row">
+                <div class="mini room-wood"><b>实景</b></div>
+                <span>+</span>
+                <div class="mini product-chair"></div>
+                <div class="mini product-round"></div>
+                <div class="mini more">+3</div>
+              </div>
+            </aside>
+            <div class="divider-arrow">›</div>
+            <div class="result-grid">
+              <div class="history-actions">
+                <button class="tag-btn">新家具融合</button>
+                <button class="regen-btn"><span class="spin-icon"></span>重新生成</button>
+              </div>
+              <div class="result-img img-i"><span>方案 1</span></div>
+              <div class="result-img img-j"><span>方案 2</span></div>
+              <div class="result-img img-k"><span>方案 3</span></div>
+              <div class="result-img img-l"><span>方案 4</span></div>
+            </div>
+          </div>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <div class="drawer-overlay" id="drawerOverlay" hidden></div>
+  <aside class="config-drawer" id="configDrawer" aria-hidden="true" aria-labelledby="drawerTitle">
+    <div class="drawer-handle"></div>
+    <header class="drawer-head">
+      <h3 id="drawerTitle">修改</h3>
+      <button class="drawer-close" id="drawerClose" type="button" aria-label="关闭">×</button>
+    </header>
+    <div class="drawer-content" id="drawerContent"></div>
+  </aside>
+
+  <div class="image-preview-overlay" id="imagePreviewOverlay" hidden>
+    <div class="image-preview-dialog" role="dialog" aria-modal="true" aria-labelledby="imagePreviewTitle">
+      <header class="image-preview-head">
+        <h3 id="imagePreviewTitle">风格示例</h3>
+        <button class="image-preview-close" id="imagePreviewClose" type="button" aria-label="关闭"></button>
+      </header>
+      <img id="imagePreviewImg" src="" alt="">
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
